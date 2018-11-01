@@ -67,8 +67,15 @@ def make_three_main_category_boxes(data_set):
     clean_up_data_set = []
     for data in data_set:
         if data['bos_category'] in ('ADULT', 'KIDS'):
-            clean_up_data_set.append(data['bos_category'])
+            clean_up_data_set.append(data)
     #print len(clean_up_data_set)
+
+    # create bundles for kids and adult category
+    for book in clean_up_data_set:
+        print book
+    # create bundles for kids category
+
+    # create bundles for kids category
 
         # if data['bos_category'] in ('ADULT','KIDS'):
         #     adult_kids_category.append(data['bos_category'])
