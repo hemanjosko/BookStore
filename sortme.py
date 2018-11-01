@@ -71,29 +71,53 @@ def make_three_main_category_boxes(data_set):
     #print len(clean_up_data_set)
 
     # create bundles for adults and kids category
-    bundle = set()
-    for book in clean_up_data_set:
+    bundle = set()#still feel wrong #weight check needs
+    weight = set()
+    for book in clean_up_data_set:#now in this section only removing entries while adding to bundle remain from data set
+        validator = set()
         if len(bundle) == 5:
+            adult_kids_category_boxes.append(bundle)
             bundle = set()
+            weight = set()
+        if len(validator) == 4:#if your validation says yours bundle has four books then you can add one more book
+            bundle.add(book['title'])
         #     At least 1 fiction Adult
-        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5:
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'one' not in validator \
+                and 'three' not in validator and 'four' not in validator:#adult book not in kids
             bundle.add(book['title'])
+            weight.add(book['stock_weight'])
+            validator.add('one')
         #     At least 1 Non-fiction Adult
-        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5:
+        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'two' not in validator \
+                and 'three' not in validator and 'four' not in validator:#adult book not in kids
             bundle.add(book['title'])
+            weight.add(book['stock_weight'])
+            validator.add('two')
         #     At least 1 Kid coloring
-        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5:
+        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'three' not in validator \
+                and 'one' not in validator and 'two' not in validator:#kids books not in adults
             bundle.add(book['title'])
+            weight.add(book['stock_weight'])
+            validator.add('three')
         #     At least 1 Kid fiction
-        if book['genre'] == 'FICTION' and book['bos_category'] == 'KIDS' and len(bundle) < 5:
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'four' not in validator \
+                and 'one' not in validator and 'two' not in validator:#kids book not in adults
             bundle.add(book['title'])
-        adult_kids_category_boxes.append(bundle)
+            weight.add(book['stock_weight'])
+            validator.add('four')
+        if len(validator) < 4:
+            #exit loop
+            break
+
 
     # create bundles for adults only category
     bundle = set()
     for book in clean_up_data_set:
         if len(bundle) == 5:
             bundle = set()
+            adult_only_category_boxes.append(bundle)
+        if len(bundle) < 5:#recheck -- fixed still recheck
+            bundle.add(book['title'])
         #     At least 1 fiction
         if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5:
             bundle.add(book['title'])
@@ -103,17 +127,26 @@ def make_three_main_category_boxes(data_set):
         #     At least and only 1 colouring Adult
         if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'ADULT'and len(bundle) < 5:
             bundle.add(book['title'])
-        adult_only_category_boxes.append(bundle)
+        if len(bundle) < 3:
+            #exit loop
+            break
+
 
     # create bundles for kids category
     bundle = set()
     for book in clean_up_data_set:
         if len(bundle) == 5:
+            kids_only_category_boxes.append(bundle)
             bundle = set()
+        if len(bundle) < 4:#recheck -- still recheck needed
+            bundle.add(book['title'])
         #     At least 2 Colouring books
         if book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5:
             bundle.add(book['title'])
-        kids_only_category_boxes.append(bundle)
+        if len(bundle) < 2:#situation not satisfied yet 2 colouring books wants recheck needed
+            #exit loop
+            break
+
 
     return adult_kids_category_boxes, \
            adult_only_category_boxes, \
