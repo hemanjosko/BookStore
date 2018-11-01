@@ -70,19 +70,44 @@ def make_three_main_category_boxes(data_set):
             clean_up_data_set.append(data)
     #print len(clean_up_data_set)
 
-    # create bundles for kids and adult category
+    # create bundles for adults and kids category
     for book in clean_up_data_set:
-        print book
-    # create bundles for kids category
+        bundle = set()
+        #     At least 1 fiction Adult
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT':
+            bundle.add(book['title'])
+        #     At least 1 Non-fiction Adult
+        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT':
+            bundle.add(book['title'])
+        #     At least 1 Kid coloring
+        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'KIDS':
+            bundle.add(book['title'])
+        #     At least 1 Kid fiction
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'KIDS':
+            bundle.add(book['title'])
+        adult_kids_category_boxes.append(bundle)
+
+    # create bundles for adults only category
+    for book in clean_up_data_set:
+        bundle = set()
+        #     At least 1 fiction
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT':
+            bundle.add(book['title'])
+        #     At least 1 Non-fiction
+        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT':
+            bundle.add(book['title'])
+        #     At least and only 1 colouring Adult
+        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'ADULT':
+            bundle.add(book['title'])
+        adult_only_category_boxes.append(bundle)
 
     # create bundles for kids category
-
-        # if data['bos_category'] in ('ADULT','KIDS'):
-        #     adult_kids_category.append(data['bos_category'])
-        # if data['bos_category'] == 'KIDS':
-        #     kids_only_category.append(data['bos_category'])
-        # if data['bos_category'] == 'ADULT':
-        #     adult_only_category.append(data['bos_category'])
+    for book in clean_up_data_set:
+        bundle = set()
+        #     At least 2 Colouring books
+        if book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS':
+            bundle.add(book['title'])
+        kids_only_category_boxes.append(bundle)
 
     return adult_kids_category_boxes, \
            adult_only_category_boxes, \
