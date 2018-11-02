@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import xlrd, xlwt
+import xlrd
 import sys
 
 def read_data():
