@@ -321,7 +321,7 @@ if __name__== "__main__":
     c = len(kids_only_category)
     d = len(rest_category)
 
-    sys.stdout = open('output/file', 'w')
+    sys.stdout = open('output/resultfile', 'w')
 
     print '\n1. Kids and adult box category has (%s)Bundles\n' % a
     bundle = 1
