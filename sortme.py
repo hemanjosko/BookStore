@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 import xlrd, xlwt
+import sys
 
 def read_data():
     '''Read data from excel sheet and make dictionary...
@@ -318,12 +320,46 @@ if __name__== "__main__":
     b = len(adult_only_category)
     c = len(kids_only_category)
     d = len(rest_category)
-    print 'Total count of kids and adult bundles: %s' % a
-    print 'Total count of adult bundles: %s' % b
-    print 'Total count of kids bundles: %s' % c
+
+    sys.stdout = open('output/file', 'w')
+
+    print '\n1. Kids and adult box category has (%s)Bundles\n' % a
+    bundle = 1
+    for x in adult_kids_category:
+        print "Bundle %s" % bundle
+        for y in x:
+            print y.encode("utf8")
+        print "\n"
+        bundle += 1
+
+    print '\n2. Adult box ategory has (%s)Bundles\n' % b
+    bundle = 1
+    for x in adult_only_category:
+        print "Bundle %s" % bundle
+        for y in x:
+            print y.encode("utf8")
+        print "\n"
+        bundle += 1
+
+    print '\n3. Kids box category has (%s)Bundles\n' % c
+    bundle = 1
+    for x in kids_only_category:
+        print "Bundle %s" % bundle
+        for y in x:
+            print y.encode("utf8")
+        print "\n"
+        bundle += 1
+
+    print "------------------------------------------------------"
+
+    print 'Total bundles count of kids and adult box category: %s' % a
+    print 'Total bundles count of adult box category: %s' % b
+    print 'Total bundles count of kids box category: %s' % c
     print 'Total count of rest books: %s' % d
     # for x in adult_kids_category:
     #    print len(x)
     print '%s + %s + %s = %s bundles' % (a,b,c,a+b+c)
     print '%s x 5 = %s books' % (a+b+c,(a+b+c)*5)
     print '%s + %s: %s Total Books' % ((a+b+c)*5,d,((a+b+c)*5)+d)
+
+    print "------------------------------------------------------"
