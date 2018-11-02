@@ -84,7 +84,7 @@ def make_three_main_category_boxes(data_set):
             validator = set()
             bundle = set()
             weight = []
-        if len(validator) < 5:#if your validation says yours bundle has four books then you can add one more book
+        if len(validator) < 5:# if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -118,7 +118,7 @@ def make_three_main_category_boxes(data_set):
             validator = set()
             bundle = set()
             weight = []
-        if len(validator) < 5:  # if your validation says yours bundle has four books then you can add one more book
+        if len(validator) < 5:  # if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -146,25 +146,46 @@ def make_three_main_category_boxes(data_set):
 
     # create bundles for adults only category
     bundle = set()
+    weight = []
+    validator = set()
+    print 'start adult loop'
     for book in clean_up_data_set:
         if len(bundle) == 5:
-            bundle = set()
             adult_only_category_boxes.append(bundle)
-        if len(bundle) < 5:#recheck -- fixed still recheck
-            bundle.add(book['title'])
+            validator = set()
+            bundle = set()
+            weight = []
+        if len(validator) < 5:  # if your validation says yours bundle has less than 5 books then you can add more book
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
         #     At least 1 fiction
-        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5:
-            bundle.add(book['title'])
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'one' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('one')
         #     At least 1 Non-fiction
-        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5:
-            bundle.add(book['title'])
+        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'two' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('two')
         #     At least and only 1 colouring Adult
-        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'ADULT'and len(bundle) < 5:
-            bundle.add(book['title'])
-        if len(bundle) < 3:
-            #exit loop
-            break
+        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'three' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('three')
+    else:
+        # completed loop remove books from bundle if any
+        print bundle
+        print validator
+        print len(adult_only_category_boxes)
+        print sum(weight)
+        print 'complete adult loop'
 
+    ####################################################################################################################
 
     # create bundles for kids category
     bundle = set()
@@ -194,7 +215,12 @@ if __name__== "__main__":
     #print len(whole_data_from_excel)
     adult_kids_category, adult_only_category, kids_only_category = make_three_main_category_boxes(whole_data_from_excel)
     #print len(adult_only_category) + len(kids_only_category)
-
+    print 'total count of kids and adult'
+    print len(adult_kids_category)
+    print 'total count of adult'
+    print len(adult_only_category)
+    # for x in adult_kids_category:
+    #     print len(x)
 
 
 
