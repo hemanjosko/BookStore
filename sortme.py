@@ -84,7 +84,7 @@ def make_three_main_category_boxes(data_set):
             validator = set()
             bundle = set()
             weight = []
-        if len(validator) < 5:# if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'ADULT':# if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -118,7 +118,7 @@ def make_three_main_category_boxes(data_set):
             validator = set()
             bundle = set()
             weight = []
-        if len(validator) < 5:  # if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'KIDS':  # if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -155,7 +155,7 @@ def make_three_main_category_boxes(data_set):
             validator = set()
             bundle = set()
             weight = []
-        if len(validator) < 5:  # if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'ADULT':  # if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -189,18 +189,38 @@ def make_three_main_category_boxes(data_set):
 
     # create bundles for kids category
     bundle = set()
-    for book in clean_up_data_set:
+    weight = []
+    validator = set()
+    print 'start kids loop'
+    for book in clean_up_data_set:  # now in this section only removing entries while adding to bundle remain from data set
         if len(bundle) == 5:
             kids_only_category_boxes.append(bundle)
+            validator = set()
             bundle = set()
-        if len(bundle) < 4:#recheck -- still recheck needed
-            bundle.add(book['title'])
+            weight = []
+        if len(validator) < 5 and book['bos_category'] == 'KIDS':  # if your validation says yours bundle has less than 5 books then you can add more book
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
         #     At least 2 Colouring books
-        if book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5:
-            bundle.add(book['title'])
-        if len(bundle) < 2:#situation not satisfied yet 2 colouring books wants recheck needed
-            #exit loop
-            break
+        if book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'one' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('one')
+        elif book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'two' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('two')
+    else:
+        # completed loop remove books from bundle if any
+        print bundle
+        print validator
+        print len(kids_only_category_boxes)
+        print sum(weight)
+        print 'complete kids loop'
+
 
 
     return adult_kids_category_boxes, \
@@ -219,6 +239,8 @@ if __name__== "__main__":
     print len(adult_kids_category)
     print 'total count of adult'
     print len(adult_only_category)
+    print 'total count of kids'
+    print len(kids_only_category)
     # for x in adult_kids_category:
     #     print len(x)
 
