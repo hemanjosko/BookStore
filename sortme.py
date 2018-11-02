@@ -71,43 +71,77 @@ def make_three_main_category_boxes(data_set):
     #print len(clean_up_data_set)
 
     # create bundles for adults and kids category
-    bundle = set()#still feel wrong #weight check needs
-    weight = set()
-    for book in clean_up_data_set:#now in this section only removing entries while adding to bundle remain from data set
-        validator = set()
+    ####################################################################################################################
+    bundle = set()
+    weight = []
+    validator = set()
+    print 'start adult books out of adult kids'
+    for book in clean_up_data_set:
+        #in this loop only adult bundle we create
+        #now in this section only removing entries while adding to bundle remain from data set
         if len(bundle) == 5:
             adult_kids_category_boxes.append(bundle)
+            validator = set()
             bundle = set()
-            weight = set()
-        if len(validator) == 4:#if your validation says yours bundle has four books then you can add one more book
-            bundle.add(book['title'])
+            weight = []
+        if len(validator) < 5:#if your validation says yours bundle has four books then you can add one more book
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
         #     At least 1 fiction Adult
-        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'one' not in validator \
-                and 'three' not in validator and 'four' not in validator:#adult book not in kids
-            bundle.add(book['title'])
-            weight.add(book['stock_weight'])
-            validator.add('one')
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'one' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('one')
         #     At least 1 Non-fiction Adult
-        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'two' not in validator \
-                and 'three' not in validator and 'four' not in validator:#adult book not in kids
-            bundle.add(book['title'])
-            weight.add(book['stock_weight'])
-            validator.add('two')
+        if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and 'two' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('two')
+    else:
+        #completed loop remove books from bundle if any
+        print bundle
+        print validator
+        print len(adult_kids_category_boxes)
+        print sum(weight)
+        print 'complete adult loop out of adult kids'
+
+    bundle = set()
+    weight = []
+    validator = set()
+    print 'start kids out of kids adult books'
+    for book in clean_up_data_set:  # now in this section only removing entries while adding to bundle remain from data set
+        if len(bundle) == 5:
+            adult_kids_category_boxes.append(bundle)
+            validator = set()
+            bundle = set()
+            weight = []
+        if len(validator) < 5:  # if your validation says yours bundle has four books then you can add one more book
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
         #     At least 1 Kid coloring
-        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'three' not in validator \
-                and 'one' not in validator and 'two' not in validator:#kids books not in adults
-            bundle.add(book['title'])
-            weight.add(book['stock_weight'])
-            validator.add('three')
+        if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'three' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('three')
         #     At least 1 Kid fiction
-        if book['genre'] == 'FICTION' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'four' not in validator \
-                and 'one' not in validator and 'two' not in validator:#kids book not in adults
-            bundle.add(book['title'])
-            weight.add(book['stock_weight'])
-            validator.add('four')
-        if len(validator) < 4:
-            #exit loop
-            break
+        if book['genre'] == 'FICTION' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and 'four' not in validator:
+            if float(sum(weight)) + float(book['stock_weight']) < 1800:
+                bundle.add(book['title'])
+                weight.append(float(book['stock_weight']))
+                validator.add('four')
+    else:
+        # completed loop remove books from bundle if any
+        print bundle
+        print validator
+        print len(adult_kids_category_boxes)
+        print sum(weight)
+        print 'complete kids out of kids adult loop'
+    #######################################################################################################################
 
 
     # create bundles for adults only category
@@ -160,8 +194,7 @@ if __name__== "__main__":
     #print len(whole_data_from_excel)
     adult_kids_category, adult_only_category, kids_only_category = make_three_main_category_boxes(whole_data_from_excel)
     #print len(adult_only_category) + len(kids_only_category)
-    for x in adult_kids_category:
-        print len(x)
+
 
 
 
