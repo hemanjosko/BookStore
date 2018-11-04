@@ -96,7 +96,7 @@ def make_three_main_category_boxes(data_set):
             clean_me = []
         #     At least 1 fiction Adult
         if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and book['used'] == 0 \
-                and 'one' not in validator:
+                and 'one' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -105,14 +105,15 @@ def make_three_main_category_boxes(data_set):
                 clean_me.append(book['id'])
         #     At least 1 Non-fiction Adult
         if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and book['used'] == 0 \
-                and 'two' not in validator:
+                and 'two' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
                 validator.add('two')
                 book['used'] = 1
                 clean_me.append(book['id'])
-        if len(validator) < 5 and book['bos_category'] == 'ADULT' and book['used'] == 0:# if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'ADULT' and book['used'] == 0 \
+                and book['title'] not in bundle:# if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -146,7 +147,7 @@ def make_three_main_category_boxes(data_set):
             clean_me = []
         #     At least 1 Kid coloring
         if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and book['used'] == 0 \
-                and 'three' not in validator:
+                and 'three' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -155,14 +156,15 @@ def make_three_main_category_boxes(data_set):
                 clean_me.append(book['id'])
         #     At least 1 Kid fiction
         if book['genre'] == 'FICTION' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and book['used'] == 0 \
-                and 'four' not in validator:
+                and 'four' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
                 validator.add('four')
                 book['used'] = 1
                 clean_me.append(book['id'])
-        if len(validator) < 5 and book['bos_category'] == 'KIDS' and book['used'] == 0:  # if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'KIDS' and book['used'] == 0 \
+                and book['title'] not in bundle:  # if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -197,7 +199,7 @@ def make_three_main_category_boxes(data_set):
             clean_me = []
         #     At least 1 fiction
         if book['genre'] == 'FICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and book['used'] == 0 \
-                and 'one' not in validator:
+                and 'one' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -206,7 +208,7 @@ def make_three_main_category_boxes(data_set):
                 clean_me.append(book['id'])
         #     At least 1 Non-fiction
         if book['genre'] == 'NONFICTION' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and book['used'] == 0 \
-                and 'two' not in validator:
+                and 'two' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -215,14 +217,15 @@ def make_three_main_category_boxes(data_set):
                 clean_me.append(book['id'])
         #     At least and only 1 colouring Adult
         if book['sub_genre'] == 'Colouring' and book['bos_category'] == 'ADULT' and len(bundle) < 5 and book['used'] == 0 \
-                and 'three' not in validator:
+                and 'three' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
                 validator.add('three')
                 book['used'] = 1
                 clean_me.append(book['id'])
-        if len(validator) < 5 and book['bos_category'] == 'ADULT' and book['used'] == 0:  # if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'ADULT' and book['used'] == 0 \
+                and book['title'] not in bundle:  # if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -258,7 +261,7 @@ def make_three_main_category_boxes(data_set):
             clean_me = []
         #     At least 2 Colouring books
         if book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and book['used'] == 0 \
-                and 'one' not in validator:
+                and 'one' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
@@ -266,14 +269,15 @@ def make_three_main_category_boxes(data_set):
                 book['used'] = 1
                 clean_me.append(book['id'])
         elif book['genre'] == 'Colouring' and book['bos_category'] == 'KIDS' and len(bundle) < 5 and book['used'] == 0 \
-                and 'two' not in validator:
+                and 'two' not in validator and book['title'] not in bundle:
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
                 validator.add('two')
                 book['used'] = 1
                 clean_me.append(book['id'])
-        if len(validator) < 5 and book['bos_category'] == 'KIDS' and book['used'] == 0:  # if your validation says yours bundle has less than 5 books then you can add more book
+        if len(validator) < 5 and book['bos_category'] == 'KIDS' and book['used'] == 0 \
+                and book['title'] not in bundle:  # if your validation says yours bundle has less than 5 books then you can add more book
             if float(sum(weight)) + float(book['stock_weight']) < 1800:
                 bundle.add(book['title'])
                 weight.append(float(book['stock_weight']))
